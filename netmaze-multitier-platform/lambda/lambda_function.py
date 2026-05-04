@@ -1,11 +1,48 @@
+# Lambda Function
+
+## Trigger
+- S3 upload event
+
+---
+
+## Function
+
+- Triggered when a file is uploaded to S3
+- Reads file name (object key)
+- Inserts file name into RDS database
+
+---
+
+## Database
+
+- Database: netmaze
+- Table: files
+- Column: file_name
+
+---
+
+## Flow
+
+S3 Upload → Lambda Trigger → Insert into RDS
+
+---
+
+## Notes
+
+- Stores S3 object key as file name
+- Used by application to display uploaded files
+
+# CODE
+
 import json
 import pymysql
 
 # DB config
-host = "database-1-netmaze.cfwqemaqskyh.ap-south-1.rds.amazonaws.com"
-user = "admin"
-password = "netmazeadmin"
-database = "netmaze"
+
+host = os.environ['DB_HOST']
+user = os.environ['DB_USER']
+password = os.environ['DB_PASSWORD']
+database = os.environ['DB_NAME']
 
 def lambda_handler(event, context):
     try:
